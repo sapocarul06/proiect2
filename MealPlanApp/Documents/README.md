@@ -88,18 +88,43 @@ MealPlanApp/
 - NuGet package: System.Data.SQLite
 
 ### Instalare dependințe
-```bash
-# Din Visual Studio Package Manager Console
-Install-Package System.Data.SQLite
-
-# Sau din linia de comandă
-nuget install System.Data.SQLite
+**Metoda 1 - Din Visual Studio (Recomandat):**
+1. Deschideți soluția MealPlanApp.sln în Visual Studio
+2. Click dreapta pe proiect → "Manage NuGet Packages"
+3. Căutați "System.Data.SQLite" și instalați-l
+4. Sau din Package Manager Console:
 ```
+Install-Package System.Data.SQLite
+```
+
+**Metoda 2 - Restaurare automată:**
+Visual Studio va restaura automat pachetele la primul build dacă proiectul este deschis corect.
 
 ### Rulare
 1. Deschideți soluția în Visual Studio
-2. Build (F6)
-3. Run (F5)
+2. Așteptați restaurarea pachetelor NuGet (se vede în Output window)
+3. Build (F6 sau Build → Build Solution)
+4. Run (F5 sau Debug → Start Debugging)
+
+### Rezolvare erori comune
+
+**Eroarea: "The name 'DatabaseHelper' does not exist in the current context"**
+- Cauză: Fișierul DatabaseHelper.cs nu este inclus în proiect sau namespace-ul este greșit
+- Soluție: 
+  1. Verificați că `Data/DatabaseHelper.cs` există în proiect
+  2. În Visual Studio, click dreapta pe proiect → Add → Existing Item → selectați DatabaseHelper.cs
+  3. Asigurați-vă că `using MealPlanApp.Data;` este prezent în Program.cs
+  4. Rebuild solution (Build → Clean Solution, apoi Build → Rebuild Solution)
+
+**Eroarea: "Could not load file or assembly 'System.Data.SQLite'"**
+- Cauză: Pachetul NuGet nu este instalat
+- Soluție: Instalați pachetul System.Data.SQLite din NuGet Package Manager
+
+**Eroarea: "The type or namespace name 'SQLiteConnection' could not be found"**
+- Cauză: Lipsa referinței către System.Data.SQLite
+- Soluție: 
+  1. Install-Package System.Data.SQLite din Package Manager Console
+  2. Rebuild solution
 
 ### Meniu Interactiv
 Aplicația oferă un meniu interactiv cu toate funcționalitățile numerotate conform cerințelor.
