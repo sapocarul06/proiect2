@@ -1,16 +1,22 @@
-```
+```gitignore
 # Build artifacts
-bin/
-obj/
-*.dll
+*.obj
 *.exe
+*.dll
+*.so
+*.a
+*.lib
 *.pdb
-*.config
-*.csproj.user
+*.ilk
+*.exp
+*.dSYM/
+*.dylib
 
 # Dependencies
 packages/
-node_modules/
+bin/
+obj/
+out/
 
 # Logs
 *.log
@@ -20,15 +26,30 @@ node_modules/
 .env.local
 *.env.*
 
-# Editors
-.vscode/
-.idea/
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
-
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
+
+# Distribution / packaging
+dist/
+build/
+*.tar.gz
+*.whl
+*.egg-info/
+
+# Testing
+*.pytest_cache/
+.mypy_cache/
 ```
