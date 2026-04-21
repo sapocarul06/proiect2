@@ -1,171 +1,138 @@
-# MealPlanApp - Gestionare Plan Alimentar
+# MealPlanApp - Aplicație Gestionare Plan Alimentar
 
 ## Descriere Proiect
-Aplicație console în C# (.NET Framework 4.7.2) pentru gestionarea unui plan alimentar cu includerea sugestiilor în baza unor setări prestabilite.
-
-## Structură Proiect
-```
-MealPlanApp/
-├── Models/
-│   └── Models.cs          # Clasele de date (FoodItem, User, MealPlan, etc.)
-├── Data/
-│   └── DatabaseHelper.cs  # Initializare și creare tabele SQLite
-├── Services/
-│   ├── FoodItemService.cs # CRUD pentru alimente
-│   ├── ImportService.cs   # Import date de la provideri (Cerințele 1, 2, 3)
-│   ├── MealPlanService.cs # Generare planuri și sugestii (Cerințele 5, 7)
-│   ├── EmailService.cs    # Trimitere emailuri (Cerințele 6, 9)
-│   └── ReportService.cs   # Generare rapoarte PDF/Excel (Cerinta 10)
-├── Scripts/               # Scripturi SQL opționale
-├── Documents/             # Documentație suplimentară
-├── Program.cs             # Punctul de intrare al aplicației
-├── MealPlanApp.csproj     # Fișier proiect .NET 4.7.2
-└── packages.config        # Dependințe NuGet
-```
+Aplicație console în C# (.NET Framework 4.7.2) pentru gestionarea planurilor alimentare cu sugestii personalizate bazate pe preferințele utilizatorilor.
 
 ## Cerințe Implementate
 
-### 1. Import initial date de la provideri ✅
-- `ImportService.InitialImport()` - Rulează o singură dată
-- Importă date de la mai mulți provideri simultan
-- Verifică duplicatele pe baza de ImageHash
+### ✅ Cerința 1: Import inițial de la mai mulți provideri
+- **Fișier:** `Services/InitialImportService.cs`
+- Importă date de la 3 provideri diferiți (ProviderA, ProviderB, ProviderC)
+- Rulează o singură dată la început
 
-### 2. Actualizare zilnică (Cron) ✅
-- `ImportService.DailyUpdateImport()` - Rulează zilnic
-- Actualizează înregistrările existente
-- Adaugă înregistrări noi
-- Include instrucțiuni pentru configurarea cron
+### ✅ Cerința 2: Actualizare zilnică cu cron
+- **Fișier:** `Services/DailyUpdateService.cs`
+- Script care rulează zilnic pentru actualizarea datelor
+- Include configurație cron pentru Linux și Windows Task Scheduler
 
-### 3. Identificare anunțuri identice pe baza imaginilor ✅
-- `ImportService.FindDuplicateImages()`
-- Folosește hash SHA256 pentru identificare
-- Grupează și afișează duplicatele
+### ✅ Cerința 3: Identificare duplicate pe baza imaginilor
+- **Fișier:** `Services/ImageDuplicateDetector.cs`
+- Folosește hash SHA256 pentru a detecta imagini identice
+- Previne duplicarea anunțurilor/alimentelor
 
-### 4. Studiu stocare imagini ✅
-- Documentat în `Program.ShowImageStorageStudy()`
-- Compară: Bază de date vs Server fișiere vs Cloud storage
-- Recomandă abordarea hibridă
+### ✅ Cerința 4: Studiu stocare imagini
+- **Fișier:** `Services/ImageDuplicateDetector.cs` (metoda `DisplayImageStorageStudy`)
+- Compară 3 metode: Bază de date (BLOB), File System, Cloud Storage
+- Recomandare: Cloud Storage (Azure Blob/AWS S3) + metadata în DB
 
-### 5. Listare date după specificitate ✅
-- `MealPlanService.GetSuggestionsForUser()`
-- Filtrează alimente după preferințele utilizatorului
-- Afișează sugestii personalizate
+### ✅ Cerința 5: Listare sugestii personalizate
+- **Fișier:** `Services/NotificationService.cs`
+- Filtrează alimentele în funcție de preferințele utilizatorului
+- Calorii, proteine, tip dietă, ingrediente excluse
 
-### 6. Cron pentru emailuri promoționale ✅
-- `EmailService.SendPromotionalEmails()`
-- Include configurații pentru Linux crontab și Windows Task Scheduler
+### ✅ Cerința 6: Cron pentru emailuri promoționale
+- **Fișier:** `Program.cs` (metoda `DisplayEmailCronConfig`)
+- Configurare crontab pentru Linux
+- Configurare Windows Task Scheduler
+- Exemple de programare: zilnic, săptămânal, de mai multe ori pe zi
 
-### 7. Notificări paralele ✅
-- `MealPlanService.CheckAndNotifyUsersAsync()`
-- Folosește `Task.WhenAll()` pentru execuție paralelă
-- Verifică preferințele fiecărui utilizator
+### ✅ Cerința 7: Notificări paralele (fire de execuție)
+- **Fișier:** `Services/NotificationService.cs`
+- Folosește `async/await` și `Task.WhenAll`
+- Procesează notificări pentru mai mulți utilizatori în paralel
 
-### 8. Studiu hosting (Server vs Serverless) ✅
-- Documentat în `Program.ShowHostingStudy()`
-- Compară VPS, Serverless, și containere
-- Recomandări pentru .NET Framework 4.7.2
+### ✅ Cerința 8: Studiu găzduire aplicație
+- **Fișier:** `Services/AsyncProcessingService.cs` (metoda `DisplayHostingStudy`)
+- Compară: Local, VPS, Cloud Tradițional, Serverless
+- Arhitectură recomandată cu Azure Functions + Azure SQL + Blob Storage
 
-### 9. Serviciu asincron ✅
-- `EmailService.ProcessEmailQueueAsync()`
-- Procesare background pentru coada de emailuri
-- Demonstratie async/await
+### ✅ Cerința 9: Serviciu asincron
+- **Fișier:** `Services/AsyncProcessingService.cs`
+- Procesare background pentru analiză nutrițională
+- Calcul scor nutrițional în mod asincron
 
-### 10. Generare rapoarte PDF/Excel ✅
-- `ReportService.GenerateExcelReport()` - Format CSV
-- `ReportService.GeneratePdfReport()` - Text formatat
-- `ReportService.GenerateNutritionReport()` - Raport nutrițional detaliat
+### ✅ Cerința 10: Generare rapoarte PDF/Excel
+- **Fișier:** `Services/ReportService.cs`
+- Excel: Format CSV cu toate alimentele
+- PDF: Raport text formatat cu statistici (în producție se poate folosi iTextSharp sau QuestPDF)
 
-### 11. Statistici consumatoare de timp ✅
-- `Program.RunTimeConsumingStatistics()`
-- Calculează agregări complexe
-- Măsoară timpul de execuție
+### ✅ Cerința 11: Statistici consumatoare de timp
+- **Fișier:** `Services/AsyncProcessingService.cs` (metoda `RunPerformanceStatistics`)
+- Măsoară timpul de execuție pentru operații DB, filtrare, sortare
+- Oferă recomandări de optimizare
 
-## Cum să rulați proiectul
+## Structura Proiectului
 
-### Cerințe
-- Visual Studio 2019+ sau VS Code
-- .NET Framework 4.7.2 SDK
-- NuGet package: System.Data.SQLite
-
-### Instalare dependințe
-**Metoda 1 - Din Visual Studio (Recomandat):**
-1. Deschideți soluția MealPlanApp.sln în Visual Studio
-2. Click dreapta pe proiect → "Manage NuGet Packages"
-3. Căutați "System.Data.SQLite" și instalați-l
-4. Sau din Package Manager Console:
 ```
-Install-Package System.Data.SQLite
+MealPlanApp/
+├── Models/
+│   ├── Food.cs              # Model pentru alimente
+│   ├── User.cs              # Model pentru utilizatori
+│   └── UserPreference.cs    # Preferințe utilizator
+├── Data/
+│   └── DatabaseHelper.cs    # Acces la baza de date SQLite
+├── Services/
+│   ├── InitialImportService.cs      # Cerința 1
+│   ├── DailyUpdateService.cs        # Cerința 2
+│   ├── ImageDuplicateDetector.cs    # Cerința 3, 4
+│   ├── NotificationService.cs       # Cerința 5, 7
+│   ├── ReportService.cs             # Cerința 10
+│   └── AsyncProcessingService.cs    # Cerința 8, 9, 11
+├── Program.cs               # Meniu principal
+├── MealPlanApp.csproj       # Fișier proiect
+├── packages.config          # Dependințe NuGet
+└── Documents/
+    └── README.md            # Această documentație
 ```
 
-**Metoda 2 - Restaurare automată:**
-Visual Studio va restaura automat pachetele la primul build dacă proiectul este deschis corect.
+## Instalare și Rulare
 
-### Rulare
-1. Deschideți soluția în Visual Studio
-2. Așteptați restaurarea pachetelor NuGet (se vede în Output window)
-3. Build (F6 sau Build → Build Solution)
-4. Run (F5 sau Debug → Start Debugging)
+### Pasul 1: Deschideți proiectul în Visual Studio
+1. Deschideți Visual Studio 2019 sau 2022
+2. File → Open → Project/Solution
+3. Selectați `MealPlanApp/MealPlanApp.csproj`
 
-### Rezolvare erori comune
+### Pasul 2: Instalați pachetul NuGet
+1. Click dreapta pe proiect → Manage NuGet Packages
+2. Căutați `System.Data.SQLite.Core`
+3. Instalați versiunea 1.0.118.0
 
-**Eroarea: "The name 'DatabaseHelper' does not exist in the current context"**
-- Cauză: Fișierul DatabaseHelper.cs nu este inclus în proiect sau namespace-ul este greșit
-- Soluție: 
-  1. Verificați că `Data/DatabaseHelper.cs` există în proiect
-  2. În Visual Studio, click dreapta pe proiect → Add → Existing Item → selectați DatabaseHelper.cs
-  3. Asigurați-vă că `using MealPlanApp.Data;` este prezent în Program.cs
-  4. Rebuild solution (Build → Clean Solution, apoi Build → Rebuild Solution)
+**SAU** din Package Manager Console:
+```
+Install-Package System.Data.SQLite.Core -Version 1.0.118.0
+```
 
-**Eroarea: "Could not load file or assembly 'System.Data.SQLite'"**
-- Cauză: Pachetul NuGet nu este instalat
-- Soluție: Instalați pachetul System.Data.SQLite din NuGet Package Manager
+### Pasul 3: Build și Run
+1. Build → Build Solution (sau Ctrl+Shift+B)
+2. Debug → Start Debugging (sau F5)
 
-**Eroarea: "The type or namespace name 'SQLiteConnection' could not be found"**
-- Cauză: Lipsa referinței către System.Data.SQLite
-- Soluție: 
-  1. Install-Package System.Data.SQLite din Package Manager Console
-  2. Rebuild solution
+### Pasul 4: Utilizare
+1. Selectați opțiunea **1** pentru import inițial
+2. Explorați celelalte funcționalități din meniu
 
-### Meniu Interactiv
-Aplicația oferă un meniu interactiv cu toate funcționalitățile numerotate conform cerințelor.
+## Configurație Cron (Actualizare Zilnică)
 
-## Configurare Cron Jobs
-
-### Linux (crontab)
+### Linux
 ```bash
-# Editare crontab
 crontab -e
-
-# Actualizare zilnică la 02:00
-0 2 * * * /usr/bin/dotnet /opt/mealplan/MealPlanApp.dll --action=daily-update
-
-# Emailuri promoționale în fiecare Luni la 09:00
-0 9 * * 1 /usr/bin/dotnet /opt/mealplan/MealPlanApp.dll --action=email
+# Adăugați linia:
+0 2 * * * /usr/bin/mono /opt/mealplan/MealPlanApp.exe daily-update >> /var/log/mealplan-daily.log 2>&1
 ```
 
 ### Windows Task Scheduler
 1. Deschideți Task Scheduler
-2. Create Basic Task
-3. Configurați trigger-ul (zilnic/săptămânal)
-4. Acțiune: `dotnet.exe`
-5. Argumente: `C:\MealPlanApp\MealPlanApp.dll --action=daily-update`
+2. Create Basic Task → "MealPlan Daily Update"
+3. Trigger: Daily at 2:00 AM
+4. Action: Start a program
+5. Program: `C:\Program Files\MealPlanApp\MealPlanApp.exe`
+6. Arguments: `daily-update`
 
-## Baza de Date
-Aplicația folosește SQLite cu următoarele tabele:
-- **Providers** - Informații despre furnizorii de date
-- **FoodItems** - Alimente cu informații nutriționale
-- **Users** - Utilizatori și preferințe
-- **MealPlans** - Planuri alimentare
-- **MealPlanItems** - Iteme din planurile alimentare
-- **UserPreferences** - Preferințe utilizatori
-- **Notifications** - Notificări
-- **ImportLogs** - Log-uri importuri
-
-## Arhitectură
-- **Pattern**: Repository + Service Layer
-- **Bază de date**: SQLite (dezvoltare), SQL Server/PostgreSQL (producție)
-- **Stocare imagini**: Path în BD + fișiere pe server (recomandat)
-- **Async**: async/await pentru operațiuni I/O
+## Tehnologii Folosite
+- **Limbaj:** C#
+- **Framework:** .NET Framework 4.7.2
+- **Bază de date:** SQLite (System.Data.SQLite)
+- **Pattern-uri:** Repository, Service Layer, Async/Await
+- **Criptare:** SHA256 pentru hash imagini
 
 ## Autor
-Generat de Asistent AI pentru proiect universitar/demo
+Proiect realizat pentru tema: "Proiectarea și implementarea unei aplicații de gestionare a unui plan alimentar cu includerea sugestiilor în baza unor setări prestabilite"

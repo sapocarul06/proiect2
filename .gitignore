@@ -1,25 +1,16 @@
 ```
 # Build artifacts
-*.sln
-*.csproj
-obj/
 bin/
-Debug/
-Release/
-*.user
-*.userosscache
-*.suo
-*.userprefs
-*.pidb
-*.DotSettings.user
-*.vspscc
-*.vssscc
-_UpgradeReport_Files/
-UpgradeLog.XML
+obj/
+*.dll
+*.exe
+*.pdb
+*.config
+*.csproj.user
 
 # Dependencies
 packages/
-packages.config
+node_modules/
 
 # Logs
 *.log
@@ -27,13 +18,15 @@ packages.config
 # Environment
 .env
 .env.local
-.env.*
+*.env.*
 
 # Editors
 .vscode/
 .idea/
-*.swp
-*.swo
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
 
 # OS
 .DS_Store
