@@ -1,29 +1,28 @@
 ```
-# Build results
+# Build artifacts
 bin/
 obj/
-out/
-
-# User-specific files
-.vs/
-*.user
-*.userosscache
-*.suo
-*.csproj.user
-
-# Environment specific settings
-.env
-.env.local
-*.env.*
+*.dll
+*.exe
+*.pdb
+*.userprefs
+*.cache
+*.log
 
 # Dependencies
 packages/
 node_modules/
 
-# Logs
-*.log
+# IDE
+.vs/
+.vshost.exe
+.vscode/
+*.user
+*.userosscache
+*.suo
+*.userprefs
 
-# OS generated files
+# OS
 .DS_Store
 Thumbs.db
 ```

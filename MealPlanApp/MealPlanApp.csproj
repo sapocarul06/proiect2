@@ -46,9 +46,13 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\*.cs" />
-    <Compile Include="Services\*.cs" />
-    <Compile Include="Data\*.cs" />
+    <Compile Include="Models\Models.cs" />
+    <Compile Include="Services\EmailService.cs" />
+    <Compile Include="Services\FoodItemService.cs" />
+    <Compile Include="Services\ImportService.cs" />
+    <Compile Include="Services\MealPlanService.cs" />
+    <Compile Include="Services\ReportService.cs" />
+    <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
