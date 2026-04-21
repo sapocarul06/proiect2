@@ -53,6 +53,7 @@
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\AsyncProcessingService.cs" />
     <Compile Include="Services\ReportService.cs" />
+    <Compile Include="Services\MealPlanService.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
