@@ -1,26 +1,39 @@
 ```
 # Build artifacts
-bin/
+*.sln
+*.csproj
 obj/
-*.dll
-*.exe
-*.pdb
-*.userprefs
-*.cache
-*.log
-
-# Dependencies
-packages/
-node_modules/
-
-# IDE
-.vs/
-.vshost.exe
-.vscode/
+bin/
+Debug/
+Release/
 *.user
 *.userosscache
 *.suo
 *.userprefs
+*.pidb
+*.DotSettings.user
+*.vspscc
+*.vssscc
+_UpgradeReport_Files/
+UpgradeLog.XML
+
+# Dependencies
+packages/
+packages.config
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+.env.*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
 
 # OS
 .DS_Store
