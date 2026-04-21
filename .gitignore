@@ -28,7 +28,7 @@ node_modules/
 *.userosscache
 *.sln.docstates
 
-# OS
+# OS generated files
 .DS_Store
 Thumbs.db
 ```

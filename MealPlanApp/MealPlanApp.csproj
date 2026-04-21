@@ -51,6 +51,7 @@
     <Compile Include="Services\DailyUpdateService.cs" />
     <Compile Include="Services\ImageDuplicateDetector.cs" />
     <Compile Include="Services\NotificationService.cs" />
+    <Compile Include="Services\AsyncProcessingService.cs" />
     <Compile Include="Services\ReportService.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
