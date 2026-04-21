@@ -1,0 +1,29 @@
+```
+# Build results
+bin/
+obj/
+out/
+
+# User-specific files
+.vs/
+*.user
+*.userosscache
+*.suo
+*.csproj.user
+
+# Environment specific settings
+.env
+.env.local
+*.env.*
+
+# Dependencies
+packages/
+node_modules/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+```
